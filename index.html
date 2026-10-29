@@ -1,0 +1,2247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cuestionario de práctica para el examen teórico de la Licencia Nacional de Conducir, categorías B1 y B2 - Municipalidad de Río Gallegos.">
+    <title>Cuestionario de Seguridad Vial - Municipalidad de Río Gallegos</title>
+    <style>
+        :root {
+            --muni-blue: #003366;
+            --muni-sky: #0080ff;
+            --traffic-yellow: #ffcc00;
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --correct-green: #10b981;
+            --incorrect-red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 24px 12px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .quiz-wrapper {
+            max-width: 720px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 12px 32px rgba(0, 51, 102, 0.15);
+            overflow: hidden;
+            overflow: clip;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* Encabezado Municipal */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--muni-blue), var(--muni-sky));
+            color: white;
+            padding: 28px 20px 24px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--traffic-yellow);
+            position: relative;
+        }
+
+        /* Contenedor de Logos e Insignias Institucionales */
+        .logos-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .logo-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        .muni-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.22);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .hero-banner h1 {
+            font-size: 1.65rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .hero-banner p {
+            font-size: 0.95rem;
+            opacity: 0.92;
+        }
+
+        /* Barra de Progreso y Contador */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .sticky-tracker {
+            background: #ffffff;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .tracker-text {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--muni-blue);
+        }
+
+        .progress-bg {
+            height: 8px;
+            background: #e2e8f0;
+            width: 100%;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--traffic-yellow);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .quiz-content {
+            padding: 24px 20px;
+        }
+
+        /* Tarjeta de Pregunta */
+        .question-card {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 24px;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .icon-badge {
+            width: 44px;
+            height: 44px;
+            background: #e0f2fe;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .question-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--muni-blue);
+            line-height: 1.4;
+        }
+
+        /* Área de Ilustración Tránsito */
+        .illustration-box {
+            width: 100%;
+            min-height: 150px;
+            background: linear-gradient(to bottom, #1e293b, #0f172a);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px;
+            padding: 16px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
+        }
+
+        /* Botones de Opciones */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            line-height: 1.4;
+        }
+
+        .option-btn:focus-visible {
+            outline: 3px solid var(--muni-sky);
+            outline-offset: 2px;
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+            color: var(--text-main);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--muni-sky);
+            background: #f0f7ff;
+            transform: translateY(-2px);
+        }
+
+        .option-btn.correct {
+            background: #dcfce7 !important;
+            border-color: var(--correct-green) !important;
+            color: #14532d !important;
+            font-weight: 700;
+        }
+
+        .option-btn.incorrect {
+            background: #fee2e2 !important;
+            border-color: var(--incorrect-red) !important;
+            color: #7f1d1d !important;
+        }
+
+        /* Explicación Pedagógica */
+        .explanation-box {
+            display: none;
+            margin-top: 14px;
+            padding: 12px 16px;
+            background: #f0f9ff;
+            border-left: 4px solid var(--muni-sky);
+            border-radius: 8px;
+            font-size: 0.88rem;
+            color: #0369a1;
+            line-height: 1.45;
+        }
+
+        /* Pantalla de Resultados */
+        .results-box {
+            display: none;
+            text-align: center;
+            padding: 36px 20px;
+            background: #f0fdf4;
+            border-radius: 16px;
+            border: 2px dashed var(--correct-green);
+        }
+
+        .results-box h2 {
+            color: var(--muni-blue);
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+        }
+
+        .results-score-badge {
+            display: inline-block;
+            background: var(--muni-blue);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 800;
+            padding: 10px 24px;
+            border-radius: 30px;
+            margin: 14px 0;
+            border: 2px solid var(--traffic-yellow);
+        }
+
+        .reset-btn {
+            background: var(--muni-blue);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 18px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(0, 51, 102, 0.3);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
+        }
+
+        .reset-btn:hover {
+            background: var(--muni-sky);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-wrapper">
+    <!-- Banner Principal con Insignias / Logos Institucionales -->
+    <div class="hero-banner">
+        <div class="logos-row">
+            <!-- Insignia Municipalidad de Río Gallegos -->
+            <div class="logo-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <span>Río Gallegos</span>
+            </div>
+
+            <!-- Logo Agencia Nacional de Seguridad Vial (ANSV) -->
+            <div class="logo-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                <span>ANSV - Vialidad</span>
+            </div>
+
+            <!-- Logo Dpto Accidentología & Educación Vial -->
+            <div class="logo-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
+                <span>Accidentología</span>
+            </div>
+        </div>
+
+        <div class="muni-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Santa Cruz, Argentina
+        </div>
+
+        <h1>Educación y Seguridad Vial</h1>
+        <p>Examen Teórico Exhaustivo de Evaluación - Categorías B1 y B2</p>
+    </div>
+
+    <!-- Barra y Contador de Progreso en Vivo -->
+    <div class="sticky-header">
+        <div class="sticky-tracker">
+            <span class="tracker-text" id="trackerText" aria-live="polite">Pregunta 1 de 90</span>
+            <span class="tracker-text" id="scoreTracker" style="color: var(--correct-green);" aria-live="polite">Aciertos: 0</span>
+        </div>
+        <div class="progress-bg" role="progressbar" aria-label="Progreso del examen" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressWrap">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+    </div>
+
+    <div class="quiz-content" id="quizContainer">
+
+        <!-- PREGUNTA 1 -->
+        <div class="question-card" data-correct="1" data-exp="En Río Gallegos el uso de luces bajas es obligatorio las 24 hs. del día dentro de la ciudad y en rutas de todo el país.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <div class="question-title">1. Uso de Luces Bajas: ¿Cuál es la norma obligatoria para circular en la ciudad de Río Gallegos?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Son obligatorias solamente de noche o en presencia de niebla.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Es obligatorio el uso de luces bajas / DRL durante las 24 hs. del día.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Se permite usar luces de posición durante el día en calles iluminadas.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 2 -->
+        <div class="question-card" data-correct="0" data-exp="La Ley Nacional 27.714 modificó el Art. 48 inc. a) estableciendo la prohibición total de conducir con más de 0,00 g/l de alcohol en sangre.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="question-title">2. Alcohol Cero al Volante: Según la Ley Nacional N.º 27.714, ¿cuál es el límite legal de alcoholemia?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) CERO absoluto (0,00 g/l) para todo tipo de conductor y vehículo.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Hasta 0,5 g/l de alcohol en sangre para automóviles particulares.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Hasta 0,2 g/l de alcohol en sangre para principiantes.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 3 -->
+        <div class="question-card" data-correct="2" data-exp="Las 5 puntas de la Estrella Amarilla representan los pilares: Memoria, Prevención (Prudencia), Ley, Justicia y Educación.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <div class="question-title">3. Campaña Estrellas Amarillas: ¿Qué valores fundamentales representan las 5 puntas de la estrella?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="110" height="110" viewBox="0 0 24 24" fill="#ffcc00" stroke="#cc1020" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Responsabilidad, Conciencia, Velocidad, Luces y Cinturón.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Peatón, Conductor, Pasajero, Inspector y Municipio.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Memoria, Prevención (Prudencia), Ley, Justicia y Educación.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 4 -->
+        <div class="question-card" data-correct="1" data-exp="Según la norma, si los datos del DNI presentan diferencias con la Licencia, esta caduca a los 90 días de producido el cambio.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+                </div>
+                <div class="question-title">4. Modificación de Datos: ¿Cuándo caduca la Licencia si modificas los datos de tu DNI?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Caduca a los 30 días corridos.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Caduca exactamente a los NOVENTA (90) días de producido el cambio.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Continúa válida hasta la fecha de vencimiento impresa en la credencial.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 5 -->
+        <div class="question-card" data-correct="0" data-exp="La categoría B1 autoriza autos, camionetas y casas rodantes motorizadas de hasta 3.500 kg de peso total.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M5 17h14M5 12h14M5 7h14"/></svg>
+                </div>
+                <div class="question-title">5. Categoría B1: ¿Hasta qué peso máximo total autoriza a conducir la Licencia B1?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="110" height="70" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Hasta TRES MIL QUINIENTOS KILOGRAMOS (3.500 kg).</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Hasta 2.500 kg de peso total únicamente.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Hasta 5.000 kg para vehículos de carga liviana.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 6 -->
+        <div class="question-card" data-correct="1" data-exp="La Categoría B2 autoriza automóviles y camionetas de hasta 3.500 kg con un acoplado de hasta 750 kg o casa rodante no motorizada.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M10 17h4M4 17h2M18 17h2"/></svg>
+                </div>
+                <div class="question-title">6. Categoría B2: ¿Qué acoplado o remolque está permitido enganchar en la categoría B2?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="120" height="70" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="1.8"><rect x="1" y="6" width="10" height="10" rx="1"/><rect x="14" y="8" width="8" height="8" rx="1"/><line x1="11" y1="12" x2="14" y2="12"/><circle cx="4" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Un acoplado o tráiler pesado de hasta 1.500 kg.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Un acoplado de hasta SETECIENTOS CINCUENTA KILOGRAMOS (750 kg) o casa rodante no motorizada.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) No permite enganchar ningún tipo de carro o acoplado.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 7 -->
+        <div class="question-card" data-correct="2" data-exp="Los menores y los conductores principiantes, durante SEIS MESES, no podrán conducir en zonas céntricas, autovías ni autopistas.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+                <div class="question-title">7. Conductores Principiantes: ¿Qué restricciones rigen durante los primeros SEIS MESES?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Solo pueden conducir acompañados por un conductor profesional.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) No pueden conducir en horario nocturno (de 22:00 a 06:00 hs).</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Durante 6 meses no podrán conducir en zonas céntricas, autovías ni autopistas.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 8 -->
+        <div class="question-card" data-correct="0" data-exp="La velocidad máxima en zona urbana es de 40 km/h, salvo indicación en contrario.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l3-3"/></svg>
+                </div>
+                <div class="question-title">8. Velocidad Máxima Urbana: ¿Cuál es el límite máximo permitido en calles comunes urbanas?</div>
+            </div>
+            <div class="illustration-box">
+                <!-- Señal Reguladora 40 km/h -->
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="44" fill="#ffffff" stroke="#ef4444" stroke-width="10"/>
+                    <text x="50" y="60" font-size="34" font-weight="900" fill="#000000" text-anchor="middle">40</text>
+                </svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) 40 km/h.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) 50 km/h.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) 30 km/h.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 9 -->
+        <div class="question-card" data-correct="2" data-exp="En avenidas multicarriles la máxima es 60 km/h y la velocidad mínima es la mitad (30 km/h).">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <div class="question-title">9. Avenidas Multicarriles: ¿Cuál es la velocidad máxima y mínima permitida?</div>
+            </div>
+            <div class="illustration-box">
+                <!-- Señal Reguladora 60 km/h -->
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="44" fill="#ffffff" stroke="#ef4444" stroke-width="10"/>
+                    <text x="50" y="60" font-size="34" font-weight="900" fill="#000000" text-anchor="middle">60</text>
+                </svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Máxima 50 km/h y Mínima 20 km/h.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Máxima 70 km/h y Mínima 35 km/h.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Máxima 60 km/h y Mínima 30 km/h (la mitad de la máxima).</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 10 -->
+        <div class="question-card" data-correct="1" data-exp="Ante un cartel de Zona Escolar o Niños Jugando, lo correcto es disminuir la velocidad a 20 km/h sin importar el horario.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                </div>
+                <div class="question-title">10. Zona Escolar: ¿A qué velocidad se debe disminuir la marcha al aproximarse a una zona escolar?</div>
+            </div>
+            <div class="illustration-box">
+                <!-- Señal Preventiva Escolares -->
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <rect x="15" y="15" width="70" height="70" rx="8" fill="#ffcc00" stroke="#000" stroke-width="3" transform="rotate(45 50 50)"/>
+                    <circle cx="42" cy="34" r="5" fill="#000"/>
+                    <path d="M42 40v14M42 44l-8 8M42 44l7 6M42 54l-6 14M42 54l6 14" stroke="#000" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <circle cx="60" cy="40" r="4" fill="#000"/>
+                    <path d="M60 45v11M60 49l-6 6M60 49l6 6M60 56l-4 11M60 56l4 11" stroke="#000" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) A 30 km/h en horario de salida escolar.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) A 20 km/h, sin importar el día ni el horario.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) A 15 km/h únicamente los días hábiles.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 11 -->
+        <div class="question-card" data-correct="0" data-exp="En rotondas, la prioridad es del que circula por ella. Solo se pierde ante vehículos de urgencia con sirena/balizas, señal específica o ante una ruta nacional/provincial.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                </div>
+                <div class="question-title">11. Prioridad en Rotondas: ¿Quién tiene prioridad de paso en una rotonda?</div>
+            </div>
+            <div class="illustration-box">
+                <!-- Señal Preventiva Rotonda -->
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <rect x="15" y="15" width="70" height="70" rx="8" fill="#ffcc00" stroke="#000" stroke-width="3" transform="rotate(45 50 50)"/>
+                    <path d="M50 32a18 18 0 0 1 17 12" stroke="#000" stroke-width="5" fill="none" stroke-linecap="round"/>
+                    <polygon points="72,40 62,40 68,50" fill="#000"/>
+                    <path d="M68 58a18 18 0 0 1-22 10" stroke="#000" stroke-width="5" fill="none" stroke-linecap="round"/>
+                    <polygon points="40,70 50,76 50,64" fill="#000"/>
+                    <path d="M34 62a18 18 0 0 1 2-22" stroke="#000" stroke-width="5" fill="none" stroke-linecap="round"/>
+                    <polygon points="30,36 40,38 34,46" fill="#000"/>
+                </svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) El vehículo que circula por la rotonda sobre el que intenta ingresar.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) El vehículo que ingresa desde la derecha a la rotonda.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) El vehículo que transita a mayor velocidad.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 12 -->
+        <div class="question-card" data-correct="2" data-exp="La prioridad de paso en un cruce de calles comunes es para el que circula por la derecha. Es absoluta y solo se pierde ante señalización específica en contrario, vehículos de urgencia en cumplimiento de su función o peatones que cruzan lícitamente por la senda.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </div>
+                <div class="question-title">12. Prioridad a la Derecha: En una bocacalle común sin semáforo, ¿quién tiene prioridad?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) El vehículo que circula por la calle más ancha.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) El vehículo que llega primero al centro de la esquina.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) El vehículo que aparece por la derecha, siendo una regla absoluta salvo excepciones legales.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 13 -->
+        <div class="question-card" data-correct="1" data-exp="De una parada de colectivo se debe estacionar a una distancia mínima de 10 metros.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polygon points="12 2 2 22 22 22 12 2"/></svg>
+                </div>
+                <div class="question-title">13. Estacionamiento: ¿A qué distancia mínima de una parada de transporte público se debe estacionar?</div>
+            </div>
+            <div class="illustration-box">
+                <!-- Señal Parada de Ómnibus / Prohibido Estacionar -->
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="42" fill="#ffffff" stroke="#ef4444" stroke-width="10"/>
+                    <text x="50" y="62" font-size="40" font-weight="900" fill="#000000" text-anchor="middle">E</text>
+                    <line x1="20" y1="20" x2="80" y2="80" stroke="#ef4444" stroke-width="10"/>
+                </svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) A 5 metros.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) A 10 metros.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) A 15 metros.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 14 -->
+        <div class="question-card" data-correct="0" data-exp="Distancias de estacionamiento: 5m de la línea de frenado, 20cm del cordón de la acera y 50cm entre vehículos (adelante/atrás).">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div class="question-title">14. Distancia del Cordón y Vehículos: ¿Qué separación se debe mantener al estacionar en la vía pública?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="120" height="60" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><rect x="2" y="6" width="8" height="12" rx="1"/><rect x="14" y="6" width="8" height="12" rx="1"/><line x1="10" y1="12" x2="14" y2="12" stroke="#fff" stroke-dasharray="1 1"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) 20 cm respecto del cordón y 50 cm entre vehículos (adelante y atrás).</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) 40 cm del cordón y 1 metro entre vehículos.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) 10 cm del cordón y 30 cm entre vehículos.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 15 -->
+        <div class="question-card" data-correct="2" data-exp="En toda vía de doble circulación está totalmente prohibido girar a la izquierda salvo que exista semáforo de giro o cartel habilitante.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10 19l-7-7 7-7M3 12h18"/></svg>
+                </div>
+                <div class="question-title">15. Giro a la Izquierda: ¿Está permitido girar a la izquierda en una calle o avenida de doble mano?</div>
+            </div>
+            <div class="illustration-box">
+                <!-- Señal Prohibido Girar a la Izquierda -->
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="42" fill="#ffffff" stroke="#ef4444" stroke-width="10"/>
+                    <path d="M60 70V45H38l10-10" stroke="#000" stroke-width="7" fill="none" stroke-linecap="round"/>
+                    <line x1="20" y1="20" x2="80" y2="80" stroke="#ef4444" stroke-width="10"/>
+                </svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Sí, siempre que se coloque la luz de guiño con 10 metros de anticipación.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Sí, dando prioridad a los vehículos que vienen de frente.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Está totalmente PROHIBIDO salvo que lo habilite expresamente un semáforo de giro o cartel.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 16 -->
+        <div class="question-card" data-correct="1" data-exp="El giro en U está totalmente prohibido en la vía pública sin ninguna excepción.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M21 9a9 9 0 0 1-9 9 9 9 0 0 1-9-9v-3"/></svg>
+                </div>
+                <div class="question-title">16. Giro en "U": ¿Qué establece la norma sobre realizar un retoma/giro en "U"?</div>
+            </div>
+            <div class="illustration-box">
+                <!-- Señal Prohibido Retomar / Giro en U -->
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="42" fill="#ffffff" stroke="#ef4444" stroke-width="10"/>
+                    <path d="M65 65V40a15 15 0 0 0-30 0v25m-8-10l8 10 8-10" stroke="#000" stroke-width="6" fill="none"/>
+                    <line x1="20" y1="20" x2="80" y2="80" stroke="#ef4444" stroke-width="10"/>
+                </svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Se permite en avenidas si no vienen vehículos en sentido contrario.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) El giro en "U" está totalmente PROHIBIDO y no hay nada que lo habilite.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Se permite efectuarlo únicamente a mitad de cuadra.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 17 -->
+        <div class="question-card" data-correct="0" data-exp="El adelantamiento se debe realizar siempre por la izquierda. Está prohibido en puentes, túneles, curvas y cruces ferroviarios.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M18 8L22 12L18 16M2 12H22"/></svg>
+                </div>
+                <div class="question-title">17. Adelantamiento: ¿Por cuál carril se realiza la maniobra de sobrepaso y dónde está prohibida?</div>
+            </div>
+            <div class="illustration-box">
+                <!-- Señal Prohibido Adelantar -->
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="42" fill="#ffffff" stroke="#ef4444" stroke-width="10"/>
+                    <rect x="25" y="38" width="22" height="28" rx="3" fill="#ef4444"/>
+                    <rect x="53" y="38" width="22" height="28" rx="3" fill="#000000"/>
+                </svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Siempre por la izquierda con guiño; está prohibido en puentes, túneles, curvas y cruces ferroviarios.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Por la derecha si el auto de adelante circula despacio.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Por cualquiera de los dos carriles según la congestión del tránsito.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 18 -->
+        <div class="question-card" data-correct="2" data-exp="El peatón debe cruzar por la senda peatonal (o prolongación imaginaria de la edificación). Donde no hay aceras debe caminar en sentido contrario al tránsito (de frente a los autos).">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M13 4v6m0 0l3 3m-3-3L10 7m3 3v8"/></svg>
+                </div>
+                <div class="question-title">18. Reglas del Peatón: ¿Por dónde debe cruzar la calle y en qué sentido debe caminar si NO hay acera?</div>
+            </div>
+            <div class="illustration-box">
+                <!-- Señal Cruce Peatonal -->
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <rect x="15" y="15" width="70" height="70" rx="8" fill="#ffcc00" stroke="#000" stroke-width="3" transform="rotate(45 50 50)"/>
+                    <circle cx="50" cy="32" r="5" fill="#000"/>
+                    <path d="M50 38v16M50 43l-9 8M50 43l8 6M50 54l-7 14M50 54l7 14" stroke="#000" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+                    <line x1="32" y1="74" x2="68" y2="74" stroke="#000" stroke-width="3" stroke-dasharray="5 3"/>
+                </svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Debe cruzar a mitad de cuadra y caminar de espaldas al tránsito.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Debe cruzar en diagonal en bocacalles para ganar tiempo.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Debe cruzar por la esquina/senda y, sin acera, caminar de frente a los vehículos.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 19 -->
+        <div class="question-card" data-correct="1" data-exp="El Aquaplaning ocurre cuando las ruedas 'flotan' sobre una película de agua al no poder evacuarla; se debe soltar el acelerador y NO tocar el freno brusco.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                </div>
+                <div class="question-title">19. Aquaplaning (Hidroplaneamiento): ¿En qué consiste y cómo se debe proceder?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/><path d="M2 22h20M4 18c4-2 6 2 10 0s6 2 8 0" stroke="#fff"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Ocurre por sobrecalentamiento de frenos; se debe usar el freno de mano suavemente.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) El neumático flota sobre una película de agua perdiendo adherencia; se debe desacelerar sin frenar de golpe.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Es la congelación del parabrisas; se soluciona encendiendo la calefacción alta.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 20 -->
+        <div class="question-card" data-correct="0" data-exp="Los menores de 10 años deben viajar obligatoriamente en el asiento trasero sujetos con el Sistema de Retención Infantil (SRI) homologado según su peso y tamaño.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="question-title">20. Sistema de Retención Infantil (SRI): ¿Dónde y cómo deben viajar los niños menores de 10 años?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><rect x="4" y="19" width="16" height="3" rx="1" fill="#ffcc00"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) En el asiento trasero sujetos obligatoriamente con el SRI homologado para su peso y tamaño.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) En el asiento delantero siempre que usen el cinturón de tres puntos.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) En las faldas o rodillas de un adulto usando el mismo cinturón.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 21 -->
+        <div class="question-card" data-correct="2" data-exp="La Seguridad Activa aspira a evitar el accidente (frenos, suspensión, dirección, neumáticos). La Seguridad Pasiva reduce los daños (cinturón, airbag).">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="question-title">21. Seguridad Activa vs. Pasiva: ¿Cuáles son elementos de Seguridad ACTIVA en un vehículo?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0-9 9h18a9 9 0 0 0-9-9z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Airbag, apoyacabezas y cinturón de seguridad.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Climatización, visibilidad y espejos retrovisores.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Sistema de frenos, dirección, suspensión y neumáticos.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 22 -->
+        <div class="question-card" data-correct="1" data-exp="Según la Ordenanza N.º 716 HCD/91, el nivel máximo permitido de ruidos molestos en áreas residenciales es de 55 decibeles.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                </div>
+                <div class="question-title">22. Contaminación Sonora (Ordenanza 716): ¿Cuál es el nivel máximo de ruido permitido en zona residencial?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) 80 decibeles.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) 55 decibeles.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) 70 decibeles.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 23 -->
+        <div class="question-card" data-correct="0" data-exp="Está totalmente prohibido agregar defensas, ganchos, bochas o malacates que sobresalgan del plano del paragolpes por representar un riesgo para terceros.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/></svg>
+                </div>
+                <div class="question-title">23. Paragolpes y Aditamentos: ¿Se permite colocar ganchos, defensas o bochas salientes?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="70" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><rect x="2" y="10" width="20" height="6" rx="2"/><circle cx="12" cy="7" r="3" fill="#ef4444"/><line x1="2" y1="2" x2="22" y2="22" stroke="#fff" stroke-width="2"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Queda totalmente PROHIBIDO agregar cualquier elemento que sobresalga del plano del paragolpes.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Sí, siempre que estén homologados y pintados de amarillo.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Sí, únicamente en vehículos de tracción 4x4.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 24 -->
+        <div class="question-card" data-correct="1" data-exp="Ante el cartel de PARE, la obligación es detenerse en forma total (el vehículo debe quedar completamente detenido antes de la línea de frenado).">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/></svg>
+                </div>
+                <div class="question-title">24. Cartel de PARE: ¿Cuál es la obligación estricta ante la señal octogonal de PARE?</div>
+            </div>
+            <div class="illustration-box">
+                <!-- Cartel de PARE Oficial -->
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                    <polygon points="30 5 70 5 95 30 95 70 70 95 30 95 5 70 5 30" fill="#ef4444" stroke="#ffffff" stroke-width="4"/>
+                    <text x="50" y="62" font-size="28" font-weight="900" fill="#ffffff" text-anchor="middle">PARE</text>
+                </svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Disminuir la marcha y pasar si no viene ningún vehículo cercano.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Detener la marcha de forma TOTAL antes de la línea de frenado.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Hacer destellos de luces para avisar que se mantiene el paso.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 25 -->
+        <div class="question-card" data-correct="2" data-exp="Con niebla NO deben usarse luces altas porque rebotan en las gotas de agua; se deben usar luces bajas y antiniebla.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/></svg>
+                </div>
+                <div class="question-title">25. Conducción con Niebla: ¿Por qué NO se deben encender las luces altas durante la niebla?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M5 12h14M3 17h18M7 7h10"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Porque encandilan la batería del vehículo dejándolo sin carga.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Porque las luces altas están prohibidas dentro del territorio de la provincia.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Porque rebotan y se dispersan en las microgotas de agua cegando al propio conductor.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 26 -->
+        <div class="question-card" data-correct="0" data-exp="La Licencia y la Cédula pueden presentarse en formato físico o digital (únicamente a través de la aplicación Mi Argentina). NO se aceptan capturas de pantalla ni fotos.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </div>
+                <div class="question-title">26. Documentación Digital: ¿Qué formato es válido al presentar la Licencia o Cédula desde el celular?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="80" height="100" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="3"/><circle cx="12" cy="18" r="1"/><path d="M8 6h8M8 10h5"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Únicamente el formato digital en vivo mediante la aplicación oficial 'Mi Argentina'.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Capturas de pantalla o fotos guardadas en la galería del teléfono.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Fotocopias simples escaneadas enviadas por correo electrónico.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 27 -->
+        <div class="question-card" data-correct="1" data-exp="Queda prohibido conducir utilizando auriculares y/o sistemas de comunicación de operación manual continua (como escribir o sostener el celular).">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/></svg>
+                </div>
+                <div class="question-title">27. Uso de Auriculares y Celular: ¿Qué establece el reglamento sobre comunicarse al conducir?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/><line x1="2" y1="2" x2="22" y2="22" stroke="#ef4444" stroke-width="2.5"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Se permite usar auriculares en un solo oído a bajo volumen.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Queda totalmente PROHIBIDO conducir utilizando auriculares o sistemas de operación manual continua.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Está permitido enviar mensajes cortos mientras se aguarda en semáforos rojos.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 28 -->
+        <div class="question-card" data-correct="2" data-exp="La ANSV tiene como misión reducir la tasa de siniestralidad en el territorio nacional mediante la promoción, coordinación, control y seguimiento de las políticas de seguridad vial.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="question-title">28. Agencia Nacional de Seguridad Vial: ¿Cuál es su misión principal?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Cobrar las multas de tránsito que labra cada municipalidad.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Fabricar y homologar las patentes de los vehículos de todo el país.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Reducir la tasa de siniestralidad en el territorio nacional mediante la promoción, coordinación, control y seguimiento de las políticas de seguridad vial.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 29 -->
+        <div class="question-card" data-correct="1" data-exp="Es una licencia nacional única que habilita a conducir por todas las calles y caminos de la República y a circular en países limítrofes.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <div class="question-title">29. Licencia Nacional de Conducir: ¿Qué habilita la Licencia Nacional de Conducir?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Conducir solamente dentro de la provincia que la emitió.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Conducir por todas las calles y caminos de la República y circular en países limítrofes.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Conducir únicamente en la ciudad de emisión; en el resto del país se necesita un permiso especial.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 30 -->
+        <div class="question-card" data-correct="2" data-exp="Desde el Decreto 196/2025 la licencia se otorga en formato digital (Mi Argentina) y puede replicarse en físico. Ambas tienen la misma validez legal.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </div>
+                <div class="question-title">30. Licencia Digital: ¿Qué establece el Decreto Nacional N.º 196/2025?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Que solo se aceptará la licencia impresa en papel.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Que la licencia digital anula la validez legal de la versión física.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Que la licencia se otorga en formato digital, accesible desde la app Mi Argentina, pudiendo replicarse en formato físico.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 31 -->
+        <div class="question-card" data-correct="0" data-exp="Para viajar a países limítrofes se recomienda portar la licencia física, ya que algunas autoridades fronterizas o de tránsito pueden exigir el documento material.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <div class="question-title">31. Viajes a Países Limítrofes: ¿Qué formato de licencia se recomienda portar al viajar a un país limítrofe?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) El formato físico, porque algunas autoridades de control pueden requerir el documento material.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Solo una captura de pantalla de la licencia digital.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Ninguno: alcanza con presentar el DNI.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 32 -->
+        <div class="question-card" data-correct="0" data-exp="La edad mínima es de 17 años, con autorización de los padres ante Juez de Paz o Escribano Público.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="question-title">32. Edad Mínima para Conducir: ¿Cuál es la edad mínima según la Ley Nacional de Tránsito N.º 24.449?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) 17 años, con la autorización de los padres ante Juez de Paz o Escribano Público.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) 16 años, con una autorización escrita en papel simple.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) 18 años, sin ninguna excepción.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 33 -->
+        <div class="question-card" data-correct="2" data-exp="Para las categorías profesionales C, D y E el conductor debe ser mayor de 21 años y contar con la licencia B1 con 1 año de antigüedad.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <div class="question-title">33. Categorías Profesionales: ¿Qué requisitos se exigen para obtener las categorías profesionales C, D y E?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Tener 18 años y la licencia B2 con 6 meses de antigüedad.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Tener 25 años y haber aprobado un curso en Vialidad Nacional.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Ser mayor de 21 años y haber obtenido la licencia B1 con 1 año de antigüedad.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 34 -->
+        <div class="question-card" data-correct="1" data-exp="El DNI se presenta en formato físico o digital (únicamente por Mi Argentina). No se aceptan capturas de pantalla ni fotos.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <div class="question-title">34. Documento de Identidad: ¿Cómo puede presentarse el DNI al circular?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Con una foto del DNI guardada en la galería del celular.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) En formato físico o digital únicamente a través de la app Mi Argentina; no se aceptan capturas ni fotos.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Solo en formato físico: el digital no tiene validez.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 35 -->
+        <div class="question-card" data-correct="2" data-exp="El comprobante de seguro puede ser impreso, digital por Mi Argentina, por la app de la compañía o en PDF por e-mail de la aseguradora. No se aceptan fotos ni capturas.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div class="question-title">35. Seguro Obligatorio: ¿Cómo puede presentarse el comprobante del seguro vigente?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Con una foto o captura de pantalla del comprobante.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Únicamente impreso en papel con sello original.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Impreso, digital por Mi Argentina, desde la app de la aseguradora o en PDF por correo electrónico de la compañía.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 36 -->
+        <div class="question-card" data-correct="2" data-exp="Para los carros o tráileres de arrastre se debe pasar por una R.T.O. (guardabarros, paragolpes, estabilidad y luces) y así obtener el Certificado de Seguridad Vehicular emitido por la ANSV.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div class="question-title">36. Carros y Tráileres (B2): ¿Qué revisión se exige para obtener el Certificado de Seguridad Vehicular de un acoplado?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Un examen psicofísico del conductor.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Solamente una verificación policial de la patente.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Una R.T.O. con revisión técnica de guardabarros, paragolpes, estabilidad y luces.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 37 -->
+        <div class="question-card" data-correct="2" data-exp="Peatón es toda persona que se desplaza por la vía pública utilizando sus propios miembros y que está sujeta a las normas impuestas por la autoridad.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="question-title">37. El Peatón: ¿Quién es considerado peatón?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Toda persona que se desplaza por la vía pública en cualquier vehículo.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Solamente quien camina por la vereda.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Toda persona que se desplaza por la vía pública utilizando sus propios miembros.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 38 -->
+        <div class="question-card" data-correct="0" data-exp="El peatón tiene prioridad de paso, esté o no marcada la senda, siempre que cruce por la esquina.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="question-title">38. Prioridad del Peatón: ¿Cuándo tiene prioridad de paso el peatón?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" rx="8" fill="#ffcc00" stroke="#000" stroke-width="3" transform="rotate(45 50 50)"/><path d="M50 32v22" stroke="#000" stroke-width="7" stroke-linecap="round"/><circle cx="50" cy="67" r="4.5" fill="#000"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Esté o no marcada la senda de seguridad, siempre que el cruce se realice por la esquina.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Solamente cuando la senda peatonal está pintada.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Nunca: siempre debe ceder el paso al vehículo.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 39 -->
+        <div class="question-card" data-correct="2" data-exp="Nunca se debe atravesar una bocacalle en diagonal, cruzar en la mitad de la cuadra ni por detrás de un vehículo estacionado, ni salir repentinamente de entre vehículos.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                </div>
+                <div class="question-title">39. Conductas Prohibidas del Peatón: ¿Qué NO debe hacer un peatón al cruzar?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Circular por la acera conservando su derecha.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Cruzar por la esquina respetando los colores de las luces.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Atravesar una bocacalle en diagonal, cruzar a mitad de cuadra o por detrás de un vehículo estacionado.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 40 -->
+        <div class="question-card" data-correct="0" data-exp="Peatones y conductores deben obedecer al personal de tránsito: toda indicación suya anula las señales del semáforo o la señal vial existente.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="question-title">40. Personal de Tránsito: ¿Qué valor tienen las indicaciones del personal de tránsito frente a un semáforo?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Anulan las señales del semáforo o la señal vial existente.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Tienen menor valor que las luces del semáforo.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Solo se obedecen cuando el semáforo está apagado.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 41 -->
+        <div class="question-card" data-correct="0" data-exp="Se debe circular respetando las indicaciones de la autoridad, las señales de tránsito y las normas legales, en ese orden de prioridad.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                </div>
+                <div class="question-title">41. Prioridad Normativa: ¿En qué orden de prioridad se deben respetar las indicaciones en la vía pública?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Autoridad de comprobación o aplicación, señales de tránsito y normas legales.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Señales de tránsito, normas legales y autoridad de comprobación.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Normas legales, señales de tránsito y autoridad de comprobación.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 42 -->
+        <div class="question-card" data-correct="1" data-exp="Respetar las señales implica conocer su significado, acatar lo que ordenan y conservarlas: destruirlas constituye un delito y un atentado contra la seguridad de las personas.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div class="question-title">42. Respeto de las Señales: ¿Qué implica respetar las señales viales?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Conocerlas solo para rendir el examen teórico.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Conocer su significado, acatar lo que informan u ordenan y conservarlas, ya que destruirlas es un delito.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Respetarlas únicamente cuando hay un inspector presente.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 43 -->
+        <div class="question-card" data-correct="0" data-exp="Las señales viales se dividen en verticales, horizontales, luminosas, manuales y sonoras o acústicas.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                </div>
+                <div class="question-title">43. Grupos de Señales Viales: ¿Cuáles son los cinco grupos de señales viales?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Verticales, horizontales, luminosas, manuales y sonoras o acústicas.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Verticales, horizontales, digitales, policiales y preventivas.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Reglamentarias, preventivas, informativas, transitorias y luminosas.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 44 -->
+        <div class="question-card" data-correct="2" data-exp="Las señales reglamentarias indican obligaciones, limitaciones o prohibiciones. Son circulares, de fondo blanco, orla roja y símbolos negros.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                </div>
+                <div class="question-title">44. Señales Reglamentarias: ¿Cómo son, en general, las señales de reglamentación?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#ffffff" stroke="#ef4444" stroke-width="10"/><text x="50" y="61" font-size="34" font-weight="900" fill="#000" text-anchor="middle">50</text></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Rectangulares, de fondo blanco, con contorno azul y símbolos negros.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) En forma de rombo, de fondo amarillo, con orla y símbolos negros.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Circulares, de fondo blanco, rodeadas por una orla roja y con símbolos negros.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 45 -->
+        <div class="question-card" data-correct="0" data-exp="Las señales preventivas advierten de accidentes geográficos de la ruta. Son en forma de rombo, de fondo amarillo, con orla y símbolos negros.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="question-title">45. Señales Preventivas: ¿Cuál es el objetivo de las señales preventivas?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" rx="8" fill="#ffcc00" stroke="#000" stroke-width="3" transform="rotate(45 50 50)"/><path d="M50 32v22" stroke="#000" stroke-width="7" stroke-linecap="round"/><circle cx="50" cy="67" r="4.5" fill="#000"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Advertir a los conductores de la existencia de algún accidente geográfico propio de la ruta o sus adyacencias.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Advertir la construcción o arreglos en la vía pública.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Identificar y orientar sobre servicios y lugares.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 46 -->
+        <div class="question-card" data-correct="2" data-exp="Las señales informativas identifican, orientan y hacen referencia a servicios o lugares. Son rectangulares, de fondo blanco, contorno azul y símbolos negros.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                </div>
+                <div class="question-title">46. Señales Informativas: ¿Qué características tienen las señales informativas?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="110" height="90" viewBox="0 0 110 90"><rect x="8" y="10" width="94" height="70" rx="8" fill="#ffffff" stroke="#0080ff" stroke-width="6"/><text x="55" y="58" font-size="40" font-weight="900" fill="#000" text-anchor="middle">i</text></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Son rombos amarillos que advierten peligros.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Son circulares, con orla roja, y prohíben maniobras.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Son rectangulares, de fondo blanco, contorno azul y símbolos negros; sirven para identificar y orientar.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 47 -->
+        <div class="question-card" data-correct="2" data-exp="Las señales transitorias están destinadas a advertir la construcción o arreglos de la vía pública. En general son de color naranja y con símbolos negros.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div class="question-title">47. Señales Transitorias: ¿Para qué se utilizan las señales transitorias y de qué color son?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" rx="8" fill="#f97316" stroke="#000" stroke-width="3" transform="rotate(45 50 50)"/><circle cx="50" cy="34" r="5" fill="#000"/><path d="M50 40v14M50 44l-9 8M50 44l9 8M50 54l-7 14M50 54l7 14" stroke="#000" stroke-width="4.5" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Para indicar velocidades máximas; son de fondo blanco.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Para señalar servicios turísticos; son de fondo azul.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Para advertir la construcción o arreglos en la vía pública; son de color naranja con símbolos negros.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 48 -->
+        <div class="question-card" data-correct="0" data-exp="Las señales horizontales son las marcas viales impresas sobre la calzada con el fin de regular, transmitir órdenes, advertir circunstancias, encauzar la circulación o indicar zonas prohibidas.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="question-title">48. Señales Horizontales: ¿Qué son las señales horizontales?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="120" height="100" viewBox="0 0 120 100"><rect x="20" y="0" width="80" height="100" fill="#475569"/><line x1="24" y1="0" x2="24" y2="100" stroke="#e2e8f0" stroke-width="2"/><line x1="96" y1="0" x2="96" y2="100" stroke="#e2e8f0" stroke-width="2"/><line x1="60" y1="0" x2="60" y2="100" stroke="#fff" stroke-width="4" stroke-dasharray="14 10"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Las marcas viales impresas sobre la calzada para regular, transmitir órdenes, advertir, encauzar la circulación o indicar zonas prohibidas.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Las luces propias, continuas o intermitentes, de los semáforos.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Los carteles que se instalan al costado de la ruta.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 49 -->
+        <div class="question-card" data-correct="1" data-exp="Según el folleto de señales, la línea discontinua delimita los carriles y puede ser transpuesta para avanzar.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="question-title">49. Línea Discontinua: ¿Qué indica una línea discontinua que delimita carriles?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="120" height="100" viewBox="0 0 120 100"><rect x="20" y="0" width="80" height="100" fill="#475569"/><line x1="24" y1="0" x2="24" y2="100" stroke="#e2e8f0" stroke-width="2"/><line x1="96" y1="0" x2="96" y2="100" stroke="#e2e8f0" stroke-width="2"/><line x1="60" y1="0" x2="60" y2="100" stroke="#fff" stroke-width="4" stroke-dasharray="14 10"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Indica que se debe detener la marcha.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Delimita los carriles y puede ser transpuesta para avanzar.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Prohíbe terminantemente cambiar de carril.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 50 -->
+        <div class="question-card" data-correct="0" data-exp="La línea continua delimita los carriles: no debe ser transpuesta ni circular sobre ella.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                </div>
+                <div class="question-title">50. Línea Continua: ¿Qué indica una línea continua que delimita carriles?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="120" height="100" viewBox="0 0 120 100"><rect x="20" y="0" width="80" height="100" fill="#475569"/><line x1="24" y1="0" x2="24" y2="100" stroke="#e2e8f0" stroke-width="2"/><line x1="96" y1="0" x2="96" y2="100" stroke="#e2e8f0" stroke-width="2"/><line x1="60" y1="0" x2="60" y2="100" stroke="#fff" stroke-width="4"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Delimita los carriles y no debe ser transpuesta ni se debe circular sobre ella.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Indica una zona de estacionamiento permitido.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Delimita los carriles y puede ser transpuesta en cualquier momento.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 51 -->
+        <div class="question-card" data-correct="2" data-exp="Con una línea discontinua y una continua, se puede transponer si la línea del lado por el que se circula es discontinua.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                </div>
+                <div class="question-title">51. Una Continua y Una Discontinua: ¿Cuándo se puede transponer una línea mixta (una discontinua y una continua)?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="120" height="100" viewBox="0 0 120 100"><rect x="20" y="0" width="80" height="100" fill="#475569"/><line x1="24" y1="0" x2="24" y2="100" stroke="#e2e8f0" stroke-width="2"/><line x1="96" y1="0" x2="96" y2="100" stroke="#e2e8f0" stroke-width="2"/><line x1="56" y1="0" x2="56" y2="100" stroke="#ffcc00" stroke-width="4"/><line x1="65" y1="0" x2="65" y2="100" stroke="#ffcc00" stroke-width="4" stroke-dasharray="14 10"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Siempre puede transponerse, sin importar de qué lado se circule.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Nunca puede transponerse.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Puede transponerse si la línea del lado por el que se circula es la discontinua.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 52 -->
+        <div class="question-card" data-correct="0" data-exp="Dos líneas continuas separan las dos corrientes opuestas de tránsito. No deben ser transpuestas ni circular sobre ellas.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                </div>
+                <div class="question-title">52. Dos Líneas Continuas: ¿Qué función cumplen dos líneas continuas en el centro de la calzada?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="120" height="100" viewBox="0 0 120 100"><rect x="20" y="0" width="80" height="100" fill="#475569"/><line x1="24" y1="0" x2="24" y2="100" stroke="#e2e8f0" stroke-width="2"/><line x1="96" y1="0" x2="96" y2="100" stroke="#e2e8f0" stroke-width="2"/><line x1="56" y1="0" x2="56" y2="100" stroke="#ffcc00" stroke-width="4"/><line x1="65" y1="0" x2="65" y2="100" stroke="#ffcc00" stroke-width="4"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Separan las dos corrientes opuestas de tránsito y no deben ser transpuestas ni se debe circular sobre ellas.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Indican que se puede adelantar cuando no vienen vehículos.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Marcan un carril exclusivo de estacionamiento.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 53 -->
+        <div class="question-card" data-correct="0" data-exp="Las señales luminosas son señales con luz propia, continua o intermitente, que transmiten órdenes o prohibiciones que modifican las reglas generales.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <div class="question-title">53. Señales Luminosas: ¿Qué son las señales luminosas?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="70" height="100" viewBox="0 0 50 100"><rect x="5" y="2" width="40" height="96" rx="10" fill="#111827" stroke="#ffcc00" stroke-width="3"/><circle cx="25" cy="22" r="12" fill="#374151"/><circle cx="25" cy="50" r="12" fill="#374151"/><circle cx="25" cy="78" r="12" fill="#10b981"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Señales con luz propia, continua o intermitente, que transmiten órdenes o prohibiciones que modifican las reglas generales.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Sirenas, bocinas y silbatos de los inspectores.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Marcas pintadas con pintura reflectiva sobre la calzada.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 54 -->
+        <div class="question-card" data-correct="0" data-exp="La luz roja obliga a detenerse antes de la línea de frenado.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                </div>
+                <div class="question-title">54. Semáforo: Luz Roja: ¿Qué obliga la luz roja de un semáforo vehicular?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="70" height="100" viewBox="0 0 50 100"><rect x="5" y="2" width="40" height="96" rx="10" fill="#111827" stroke="#ffcc00" stroke-width="3"/><circle cx="25" cy="22" r="12" fill="#ef4444"/><circle cx="25" cy="50" r="12" fill="#374151"/><circle cx="25" cy="78" r="12" fill="#374151"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Detenerse antes de la línea de frenado.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Detenerse solamente si se acercan otros vehículos.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Disminuir la velocidad y avanzar con precaución.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 55 -->
+        <div class="question-card" data-correct="1" data-exp="La luz amarilla indica precaución por el pronto cambio a luz roja. Si se activa una vez iniciado el cruce, está permitido avanzar.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="question-title">55. Semáforo: Luz Amarilla: ¿Qué indica la luz amarilla fija del semáforo vehicular?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="70" height="100" viewBox="0 0 50 100"><rect x="5" y="2" width="40" height="96" rx="10" fill="#111827" stroke="#ffcc00" stroke-width="3"/><circle cx="25" cy="22" r="12" fill="#374151"/><circle cx="25" cy="50" r="12" fill="#ffcc00"/><circle cx="25" cy="78" r="12" fill="#374151"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Obliga a detenerse siempre, aun en medio de la bocacalle.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Precaución por el pronto cambio a roja; si se activa una vez iniciado el cruce, se permite avanzar.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Equivale a la luz verde: se puede acelerar sin restricciones.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 56 -->
+        <div class="question-card" data-correct="1" data-exp="La luz amarilla intermitente indica precaución y se puede avanzar respetando la prioridad de paso.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="question-title">56. Semáforo: Amarilla Intermitente: ¿Qué indica la luz amarilla intermitente?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="70" height="100" viewBox="0 0 50 100"><rect x="5" y="2" width="40" height="96" rx="10" fill="#111827" stroke="#ffcc00" stroke-width="3"/><circle cx="25" cy="22" r="12" fill="#374151"/><circle cx="25" cy="50" r="12" fill="#ffcc00"/><circle cx="25" cy="78" r="12" fill="#374151"/><circle cx="25" cy="50" r="15.5" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="3 3"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Obliga a detenerse totalmente hasta que cambie a verde.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Precaución: se puede avanzar respetando la prioridad de paso.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Prohíbe avanzar a todos los vehículos durante 30 segundos.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 57 -->
+        <div class="question-card" data-correct="2" data-exp="Según el material de estudio, la luz roja intermitente indica peligro y se avanzará con máxima precaución.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="question-title">57. Semáforo: Roja Intermitente: ¿Qué indica la luz roja intermitente?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="70" height="100" viewBox="0 0 50 100"><rect x="5" y="2" width="40" height="96" rx="10" fill="#111827" stroke="#ffcc00" stroke-width="3"/><circle cx="25" cy="22" r="12" fill="#ef4444"/><circle cx="25" cy="50" r="12" fill="#374151"/><circle cx="25" cy="78" r="12" fill="#374151"/><circle cx="25" cy="22" r="15.5" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="3 3"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Que el semáforo está apagado y rige la prioridad de la izquierda.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Que se puede acelerar porque el cruce está libre.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Peligro: se avanzará con máxima precaución.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 58 -->
+        <div class="question-card" data-correct="1" data-exp="El semáforo de giro consta de flechas de dirección que permiten girar hacia la derecha o la izquierda según estén ubicadas.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                </div>
+                <div class="question-title">58. Semáforo de Giro: ¿Qué son los semáforos de giro?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Semáforos que avisan el próximo cambio a luz roja.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Semáforos con flechas de dirección que permiten girar hacia la derecha o la izquierda, según su ubicación.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Semáforos de dos luces con una figura humana.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 59 -->
+        <div class="question-card" data-correct="0" data-exp="El semáforo peatonal tiene dos luces con una figura humana: la roja o naranja obliga a detenerse en la acera y la verde o blanca habilita el cruce.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="question-title">59. Semáforo Peatonal: ¿Cómo funciona el semáforo peatonal?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="60" height="100" viewBox="0 0 50 90"><rect x="5" y="2" width="40" height="86" rx="9" fill="#111827" stroke="#ffcc00" stroke-width="3"/><circle cx="25" cy="23" r="16" fill="#ef4444"/><circle cx="25" cy="65" r="16" fill="#374151"/><circle cx="25" cy="18" r="3" fill="#fff"/><path d="M25 23v8M25 23l-5 5M25 23l5 5M25 31l-4 8M25 31l4 8" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) La luz roja o naranja obliga al peatón a detenerse en la acera y la verde o blanca habilita el cruce.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) La luz roja habilita el cruce y la verde obliga a detenerse.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Tiene una sola luz verde que está encendida todo el tiempo.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 60 -->
+        <div class="question-card" data-correct="1" data-exp="El cruce ferroviario luminoso consta de dos luces rojas que, al encenderse, indican la aproximación o presencia de vehículos ferroviarios.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </div>
+                <div class="question-title">60. Cruce Ferroviario Luminoso: ¿Qué indican las dos luces rojas de un cruce ferroviario?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Que la barrera está averiada y el cruce está libre.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Que se aproximan o están presentes vehículos ferroviarios.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Que se puede cruzar con precaución a baja velocidad.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 61 -->
+        <div class="question-card" data-correct="1" data-exp="Son señales manuales las que realizan las autoridades de tránsito, el banderillero, el ciclista y el conductor cuando no le funciona la luz de giro o freno.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="question-title">61. Señales Manuales: ¿Cuáles son señales manuales?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Únicamente las que realizan los inspectores uniformados.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Las de las autoridades de tránsito, el banderillero, el ciclista al girar o frenar y el conductor al que no le funcionan las luces de giro o freno.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Las marcas pintadas sobre la calzada.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 62 -->
+        <div class="question-card" data-correct="2" data-exp="Vehículo estacionado es el que permanece por más tiempo del necesario para ascenso/descenso o carga, o cuando tiene al conductor fuera de su puesto.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M3 17v-4l2-5h14l2 5v4z"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><line x1="3" y1="13" x2="21" y2="13"/></svg>
+                </div>
+                <div class="question-title">62. Vehículo Estacionado: ¿Cuál es la definición de vehículo ESTACIONADO?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M3 17v-4l2-5h14l2 5v4z"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><line x1="3" y1="13" x2="21" y2="13"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) El que se detiene unos instantes para subir pasajeros con el conductor en su puesto.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) El que se detiene por una luz roja con el conductor al volante.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) El que permanece más tiempo del necesario para el ascenso o descenso de pasajeros o carga, o tiene al conductor fuera de su puesto.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 63 -->
+        <div class="question-card" data-correct="0" data-exp="Si un conductor aumenta la velocidad cuando otro se dispone a sobrepasarlo, comete una infracción grave contra la seguridad de las personas.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="question-title">63. Cuando Alguien Te Sobrepasa: ¿Qué infracción comete quien aumenta la velocidad cuando otro se dispone a sobrepasarlo?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Una infracción grave contra la seguridad de las personas.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Ninguna: es una maniobra defensiva válida.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Una falta leve que solo se sanciona de noche.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 64 -->
+        <div class="question-card" data-correct="0" data-exp="Para avisar que frenará se debe presionar sucesiva y suavemente el pedal de freno, así la luz de freno se enciende y se apaga.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <div class="question-title">64. Aviso de Frenado: ¿Cómo se debe avisar que se va a frenar?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Presionando sucesiva y suavemente el pedal de freno, para que la luz de freno se encienda y se apague.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Apretando el freno a fondo de una sola vez.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Encendiendo las balizas y frenando bruscamente.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 65 -->
+        <div class="question-card" data-correct="0" data-exp="Las luces intermitentes de emergencia se usan para indicar la detención en peajes, zonas peligrosas o maniobras riesgosas, como estacionar.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </div>
+                <div class="question-title">65. Luces Intermitentes de Emergencia: ¿Para qué se deben usar las balizas?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Para indicar la detención en peajes, zonas peligrosas o la ejecución de maniobras riesgosas (por ejemplo, estacionar).</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Para circular de noche dentro de la ciudad.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Para pedir paso al ingresar a una rotonda.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 66 -->
+        <div class="question-card" data-correct="0" data-exp="Según el material de estudio, la velocidad en rutas será de 110 km/h como máxima.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <div class="question-title">66. Velocidad en Rutas: ¿Cuál es la velocidad máxima en las rutas?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#ffffff" stroke="#ef4444" stroke-width="10"/><text x="50" y="61" font-size="28" font-weight="900" fill="#000" text-anchor="middle">110</text></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) 110 km/h.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) 130 km/h.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) 90 km/h.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 67 -->
+        <div class="question-card" data-correct="0" data-exp="Ante el cartel de CEDA EL PASO la obligación es disminuir la velocidad y respetar la prioridad de paso.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="question-title">67. Cartel de CEDA EL PASO: ¿Cuál es la obligación ante el cartel de CEDA EL PASO?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 100 100"><polygon points="8,16 92,16 50,90" fill="#ffffff" stroke="#ef4444" stroke-width="10" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Disminuir la velocidad y respetar la prioridad de paso.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Detenerse siempre en forma total, como ante el PARE.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Acelerar para cruzar antes que los demás.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 68 -->
+        <div class="question-card" data-correct="0" data-exp="Cuando varios vehículos marchan encolumnados, la prioridad para adelantarse corresponde al que circula inmediatamente detrás del primero; los demás, según su orden de marcha.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="question-title">68. Adelantamiento en Fila: ¿Quién tiene prioridad para adelantarse cuando varios vehículos marchan encolumnados?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) El que circula inmediatamente detrás del primero; los restantes lo hacen según su orden de marcha.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) El vehículo que circule a mayor velocidad.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) El último vehículo de la fila.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 69 -->
+        <div class="question-card" data-correct="2" data-exp="Para adelantarse a un camión u otra clase de vehículo se debe tocar bocina y hacer señas de luces.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                </div>
+                <div class="question-title">69. Adelantar a un Camión: ¿Qué se debe hacer para adelantarse a un camión u otra clase de vehículo?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Nada: se adelanta en silencio por la derecha.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Solamente encender las balizas.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Tocar bocina y hacer señas de luces.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 70 -->
+        <div class="question-card" data-correct="1" data-exp="Para realizar un giro se debe ubicar el vehículo en el carril hacia el lado que se quiere ingresar, 30 metros antes y siempre con luz de giro.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                </div>
+                <div class="question-title">70. Cómo Realizar un Giro: ¿Cómo debe prepararse un giro?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Ubicándose 10 metros antes, sin luz de giro.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Ubicando el vehículo en el carril del lado hacia el que se gira, 30 metros antes y siempre con luz de giro.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Girando desde cualquier carril al llegar a la esquina.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 71 -->
+        <div class="question-card" data-correct="2" data-exp="En las cuestas estrechas la prioridad es del vehículo que asciende, salvo que el que desciende lleve acoplado y el que asciende no.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="question-title">71. Cuestas Estrechas: ¿Quién tiene prioridad de paso en una cuesta estrecha?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) El vehículo que desciende, siempre.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) El vehículo de mayor tamaño.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) El vehículo que asciende, salvo que el que desciende lleve acoplado y el que asciende no.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 72 -->
+        <div class="question-card" data-correct="0" data-exp="Queda prohibido circular marcha atrás, excepto para estacionar, egresar de un garaje o de una calle sin salida.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                </div>
+                <div class="question-title">72. Marcha Atrás: ¿Cuándo está permitido circular marcha atrás?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Solo para estacionar, egresar de un garaje o de una calle sin salida.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) En cualquier calle, si no vienen vehículos.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Únicamente en avenidas de doble mano.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 73 -->
+        <div class="question-card" data-correct="0" data-exp="Al acercarse a una curva se recomienda reducir la velocidad progresivamente: levantar el pie del acelerador, dejar rodar por inercia y efectuar correcciones con el freno de pie.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                </div>
+                <div class="question-title">73. Técnicas de Circulación en Curva: ¿Cómo se recomienda tomar una curva?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Reduciendo la velocidad progresivamente: levantar el pie del acelerador, dejar rodar por inercia y corregir con el freno de pie.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Frenando a fondo justo al entrar en la curva.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Acelerando en la entrada para no perder tracción.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 74 -->
+        <div class="question-card" data-correct="1" data-exp="El dueño puede revisar el líquido de frenos, el depósito de agua, el aceite del motor, el líquido hidráulico y el sistema de luces.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div class="question-title">74. Revisión y Mantenimiento: ¿Qué elementos puede revisar periódicamente el propio dueño del auto?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Solo la radio y el aire acondicionado.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Líquido de frenos, nivel de agua, aceite del motor, líquido hidráulico y sistema de luces.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Únicamente la pintura y la tapicería.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 75 -->
+        <div class="question-card" data-correct="0" data-exp="La seguridad pasiva reduce al mínimo los daños cuando el siniestro es inevitable: cinturones, apoyacabezas, airbag, columna de dirección colapsable, entre otros.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="question-title">75. Seguridad Pasiva: ¿Qué elementos componen la Seguridad PASIVA?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Cinturones, apoyacabezas, airbag y columna de dirección articulada colapsable.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Visibilidad, confort y climatización.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Frenos, suspensión, dirección y neumáticos.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 76 -->
+        <div class="question-card" data-correct="0" data-exp="La seguridad preventiva comprende la visibilidad, el confort y la ergonomía, y la climatización.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <div class="question-title">76. Seguridad Preventiva: ¿Qué elementos componen la Seguridad PREVENTIVA?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) La visibilidad, el confort y ergonomía, y la climatización.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Cinturón de seguridad, airbag y asientos.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Suspensión, dirección y frenos.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 77 -->
+        <div class="question-card" data-correct="1" data-exp="El cinturón y el airbag funcionan de manera complementaria. Si los ocupantes no usan el cinturón, el inflado de la bolsa de aire puede incluso ser peligroso.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="question-title">77. Cinturón y Airbag: ¿Qué relación hay entre el cinturón de seguridad y el airbag?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) El cinturón solo es necesario cuando se circula por rutas.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Son dispositivos complementarios: si no se usa el cinturón, el inflado del airbag puede resultar peligroso.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) El airbag reemplaza al cinturón en caso de impacto.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 78 -->
+        <div class="question-card" data-correct="0" data-exp="Es incorrecto llevarlo flojo o suelto, pasarlo por debajo del brazo, transportar niños en las rodillas o compartir el cinturón con niños.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                </div>
+                <div class="question-title">78. Uso Incorrecto del Cinturón: ¿Cuál es un uso INCORRECTO del cinturón de seguridad?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Llevarlo flojo, pasarlo por debajo del brazo o compartirlo con niños.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Usarlo con el respaldo en posición erguida.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Ajustarlo firmemente sobre el pecho y la cadera.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 79 -->
+        <div class="question-card" data-correct="1" data-exp="La trilogía vial está formada por el factor humano (peatón y conductor), el mecánico (el vehículo) y el ambiental (calzada y clima).">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                </div>
+                <div class="question-title">79. Trilogía Vial: ¿Qué factores forman la trilogía vial?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Vehículo, patente y seguro.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) El factor humano, el factor mecánico y el factor ambiental.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Conductor, peatón y pasajero.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 80 -->
+        <div class="question-card" data-correct="0" data-exp="La mayoría de los accidentes de tránsito se deben a la falla humana, más específicamente a la culpa del conductor.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="question-title">80. Causas de los Accidentes: ¿Cuál es el factor al que se atribuye la mayoría de los accidentes de tránsito?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) El factor humano, especialmente la falla del conductor.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) El factor mecánico, por fallas del vehículo.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) El factor ambiental, por el clima.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 81 -->
+        <div class="question-card" data-correct="1" data-exp="En una calle con pendiente se debe estacionar colocando el freno de mano y las ruedas delanteras en ángulo con el cordón de la acera.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M3 17v-4l2-5h14l2 5v4z"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><line x1="3" y1="13" x2="21" y2="13"/></svg>
+                </div>
+                <div class="question-title">81. Estacionar en Calle con Pendiente: ¿Cómo se debe estacionar en una calle con pendiente?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M3 17v-4l2-5h14l2 5v4z"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><line x1="3" y1="13" x2="21" y2="13"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) En punto muerto, sin freno de mano.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Con el freno de mano colocado y las ruedas delanteras en ángulo con el cordón de la acera.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Con las ruedas rectas y sin freno de mano.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 82 -->
+        <div class="question-card" data-correct="0" data-exp="En el margen izquierdo está prohibido estacionar. Si la calzada no está demarcada, se debe tener en cuenta la línea de edificación transversal.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                </div>
+                <div class="question-title">82. Estacionamiento: Margen y Línea de Edificación: ¿Qué establece la norma sobre estacionar en el margen izquierdo?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#ffffff" stroke="#ef4444" stroke-width="10"/><text x="50" y="61" font-size="34" font-weight="900" fill="#000" text-anchor="middle">E</text></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Está prohibido estacionar en el margen izquierdo.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Está permitido únicamente durante la noche.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Está permitido en cualquier calle de mano única.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 83 -->
+        <div class="question-card" data-correct="2" data-exp="Ante un encandilamiento se debe disminuir la velocidad, aumentar la distancia, hacer destellos con luces altas/bajas y dirigir la vista hacia la derecha (línea de la banquina).">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <div class="question-title">83. Encandilamiento Nocturno: ¿Cómo se debe actuar ante un encandilamiento en la conducción nocturna?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Acelerar para terminar de cruzarse cuanto antes.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Mirar fijo hacia las luces del otro vehículo.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Disminuir la velocidad, aumentar la distancia con el vehículo de adelante, hacer destellos y dirigir la vista hacia la derecha (línea de la banquina).</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 84 -->
+        <div class="question-card" data-correct="0" data-exp="Si explota un neumático hay que mantener la trayectoria y, una vez reducida la velocidad, frenar gradualmente.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="question-title">84. Explosión de un Neumático: ¿Qué se debe hacer si explota un neumático?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Mantener la trayectoria del vehículo y, una vez reducida la velocidad, frenar gradualmente.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Girar bruscamente el volante hacia la banquina.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Frenar a fondo de inmediato.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 85 -->
+        <div class="question-card" data-correct="2" data-exp="Quien participó en una colisión debe permanecer en el lugar, prestar ayuda, entregar la documentación y realizar la denuncia dentro de las 72 hs de ocurrido el siniestro.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <div class="question-title">85. Después de una Colisión: ¿Qué debe hacer quien participó en una colisión?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Retirarse del lugar y denunciar el hecho dentro de los 30 días.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Esperar en su casa a que la autoridad se comunique.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Permanecer en el lugar, prestar ayuda, entregar la documentación a la autoridad y realizar la denuncia dentro de las 72 hs.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 86 -->
+        <div class="question-card" data-correct="0" data-exp="En lluvias torrenciales, velocidades superiores a 55 km/h pueden hacer que los neumáticos pierdan toda adherencia y el vehículo patine. Hay que sacar el pie del acelerador y no tocar los frenos.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                </div>
+                <div class="question-title">86. Lluvia Torrencial: ¿Qué ocurre en lluvias torrenciales con velocidades superiores a 55 km/h?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#0080ff" stroke-width="2"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="16" y1="19" x2="16" y2="21"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Los neumáticos pueden perder toda adherencia y el vehículo patinar sobre el piso mojado.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) El vehículo gana mayor adherencia por el peso del agua.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) No ocurre nada si los neumáticos son nuevos.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 87 -->
+        <div class="question-card" data-correct="2" data-exp="Con niebla muy intensa no se debe detener nunca en la ruta: se avanza, aunque sea muy lentamente, hasta hallar un lugar seguro al lado del camino.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="16" y1="19" x2="16" y2="21"/></svg>
+                </div>
+                <div class="question-title">87. Niebla Intensa: ¿Qué se debe hacer si la niebla es muy intensa?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="16" y1="19" x2="16" y2="21"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Usar luces altas y aumentar la velocidad.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Detenerse en medio de la calzada y encender las balizas.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) No detenerse en la ruta: avanzar lentamente hasta encontrar un lugar seguro al costado del camino.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 88 -->
+        <div class="question-card" data-correct="2" data-exp="El alcohol produce disminución de los reflejos, euforia, perturbación del comportamiento, visión de túnel, visión borrosa y, en exceso, embriaguez profunda y coma etílico.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <div class="question-title">88. Efectos del Alcohol: ¿Qué efectos produce el alcohol en el conductor?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Mejora de los reflejos y de la concentración.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Aumento de la visión periférica.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Disminución de los reflejos, euforia, pérdida de la visión periférica (visión de túnel) y visión borrosa.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 89 -->
+        <div class="question-card" data-correct="2" data-exp="La idea de las Estrellas Amarillas nació en Córdoba en 2008 y se extendió a todo el país. Su creador fue Julio Ambrosio, padre de Laura (21), víctima de un accidente vial.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <div class="question-title">89. Estrellas Amarillas: Creación: ¿Dónde y cuándo nació el movimiento «Estrellas Amarillas» y quién fue su creador?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Nació en Buenos Aires en 2020 por una decisión de la ANSV.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Nació en Santa Cruz en 1995; su creador fue un grupo de inspectores de tránsito.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Nació en Córdoba en 2008; su creador fue Julio Ambrosio, padre de Laura, una víctima de siniestro vial.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- PREGUNTA 90 -->
+        <div class="question-card" data-correct="1" data-exp="La estrella pintada recuerda a las víctimas de accidentes de tránsito, señala los lugares de los hechos y promueve la concientización: si fue accidente, se pudo haber evitado.">
+            <div class="question-header">
+                <div class="icon-badge">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffcc00" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                </div>
+                <div class="question-title">90. Estrella Pintada en la Vía: ¿Qué significa una estrella amarilla pintada en la vía pública?</div>
+            </div>
+            <div class="illustration-box">
+                <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="options-list">
+                <button class="option-btn" onclick="checkOption(this, 0)">A) Señala un sector de estacionamiento exclusivo.</button>
+                <button class="option-btn" onclick="checkOption(this, 1)">B) Recuerda a las víctimas de tránsito, marca el lugar de los hechos y promueve la concientización.</button>
+                <button class="option-btn" onclick="checkOption(this, 2)">C) Indica el comienzo de una zona escolar.</button>
+            </div>
+            <div class="explanation-box"></div>
+        </div>
+
+        <!-- Pantalla de Resultados Finales -->
+        <div class="results-box" id="resultsBox">
+            <h2>¡Evaluación Completada!</h2>
+            <p>Municipalidad de Río Gallegos - Dirección de Tránsito</p>
+            <div class="results-score-badge" id="resultScore">0 / 0</div>
+            <p id="resultFeedback" style="font-size: 1rem; color: #334155; margin-bottom: 15px; font-weight: 600;"></p>
+            <button class="reset-btn" onclick="window.scrollTo(0, 0); location.reload();">Reiniciar Examen Teórico</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Sintetizador Web Audio API para Efectos de Sonido
+    let audioCtx = null;
+
+    function playSound(type) {
+        try {
+            if (!audioCtx) {
+                const Ctx = window.AudioContext || window.webkitAudioContext;
+                if (!Ctx) return;
+                audioCtx = new Ctx();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        } catch (e) {
+            return;
+        }
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const t = audioCtx.currentTime;
+
+        if (type === 'correct') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(523.25, t); // C5
+            osc.frequency.setValueAtTime(659.25, t + 0.08); // E5
+            osc.frequency.setValueAtTime(783.99, t + 0.16); // G5
+            gain.gain.setValueAtTime(0.2, t);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+            osc.start(t);
+            osc.stop(t + 0.4);
+        } else if (type === 'incorrect') {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, t); // A3
+            osc.frequency.setValueAtTime(140, t + 0.12); // C#3
+            gain.gain.setValueAtTime(0.25, t);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+            osc.start(t);
+            osc.stop(t + 0.35);
+        }
+    }
+
+    let score = 0;
+    let answeredCount = 0;
+    const cards = document.querySelectorAll('.question-card');
+    const total = cards.length;
+
+    // Inicializar Tracker
+    document.getElementById('trackerText').textContent = `Pregunta 1 de ${total}`;
+
+    function checkOption(btn, optionIndex) {
+        const card = btn.closest('.question-card');
+        if (card.classList.contains('answered')) return;
+
+        card.classList.add('answered');
+        const correctIndex = parseInt(card.getAttribute('data-correct'), 10);
+        const buttons = card.querySelectorAll('.option-btn');
+        const expBox = card.querySelector('.explanation-box');
+
+        buttons.forEach(b => { b.disabled = true; });
+
+        if (optionIndex === correctIndex) {
+            btn.classList.add('correct');
+            playSound('correct');
+            score++;
+        } else {
+            btn.classList.add('incorrect');
+            buttons[correctIndex].classList.add('correct');
+            playSound('incorrect');
+        }
+
+        if (expBox && card.getAttribute('data-exp')) {
+            expBox.textContent = '💡 ' + card.getAttribute('data-exp');
+            expBox.style.display = 'block';
+        }
+
+        answeredCount++;
+        document.getElementById('scoreTracker').textContent = `Aciertos: ${score}`;
+        const pct = Math.round(answeredCount / total * 100);
+        document.getElementById('progressBar').style.width = pct + '%';
+        document.getElementById('progressWrap').setAttribute('aria-valuenow', pct);
+        
+        if (answeredCount < total) {
+            document.getElementById('trackerText').textContent = `Pregunta ${answeredCount + 1} de ${total}`;
+        } else {
+            document.getElementById('trackerText').textContent = `Examen Finalizado`;
+            setTimeout(() => {
+                document.getElementById('resultScore').textContent = `${score} / ${total} Aciertos (${Math.round(score/total*100)}%)`;
+                const percentage = (score / total) * 100;
+                let feedbackText = "";
+                if (percentage >= 80) {
+                    feedbackText = "🎉 ¡EXCELENTE! Has demostrado un conocimiento sólido de las leyes de tránsito. Estás preparado para rendir el Examen Teórico.";
+                } else if (percentage >= 60) {
+                    feedbackText = "⚠️ APROBADO CON OBSERVACIONES. Te recomendamos repasar los temas fallados en el manual oficial antes del examen real.";
+                } else {
+                    feedbackText = "❌ REPROBADO. Es necesario reeler el manual de estudio de Río Gallegos y practicar nuevamente.";
+                }
+                document.getElementById('resultFeedback').textContent = feedbackText;
+                document.getElementById('resultsBox').style.display = 'block';
+                document.getElementById('resultsBox').scrollIntoView({ behavior: 'smooth' });
+            }, 500);
+        }
+    }
+</script>
+
+</body>
+</html>
+
